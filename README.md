@@ -4,7 +4,9 @@ A Clojure library designed to be a thin wrapper over the Geocodio API
 
 ## Usage
 
-FIXME
+## Todo
+
+
 
 ## License
 
