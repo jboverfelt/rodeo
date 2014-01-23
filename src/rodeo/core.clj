@@ -41,18 +41,24 @@
           url (str geocode-base-url api-key)]
       (geocodio-post url addr-json))))
 
+(defn- handle-single-with-env [base-url address]
+    (if-let [env-api-key (get-env-variable)]
+      (geocodio-get (str base-url env-api-key) address)
+      (throw (Exception. env-exception-text))))
+
+(defn- handle-single-with-key [base-url address api-key]
+  (let [url (str base-url api-key)]
+    (geocodio-get url address)))
+
 (defn single
   "Takes a single address string and an optional api key and
   makes a request to Geocodio. Returns
   a Clojure map of results"
   ([address]
-    (if-let [env-api-key (get-env-variable)]
-      (geocodio-get (str geocode-base-url env-api-key) address)
-      (throw (Exception. env-exception-text))))
+    (handle-single-with-env geocode-base-url address))
 
   ([address api-key]
-    (let [url (str geocode-base-url api-key)]
-      (geocodio-get url address))))
+    (handle-single-with-key geocode-base-url address api-key)))
 
 (defn components
   "Takes a single address string and an optional
@@ -60,10 +66,7 @@
   of that address (street, city, etc as a
   Clojure map"
   ([address]
-    (if-let [env-api-key (get-env-variable)]
-      (geocodio-get (str parse-base-url env-api-key) address)
-      (throw (Exception. env-exception-text))))
+    (handle-single-with-env parse-base-url address))
 
   ([address api-key]
-   (let [url (str parse-base-url api-key)]
-     (geocodio-get url address))))
+    (handle-single-with-key parse-base-url address api-key)))
