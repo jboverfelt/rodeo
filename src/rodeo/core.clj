@@ -2,10 +2,10 @@
   (:require [cheshire.core :as che]
             [clj-http.client :as http]))
 
-(def ^:const api-key-name "GEOCODIO_API_KEY")
-(def ^:const geocode-base-url "http://api.geocod.io/v1/geocode?api_key=")
-(def ^:const parse-base-url "http://api.geocod.io/v1/parse?api_key=")
-(def ^:const env-exception-text (str "The " api-key-name " environment variable was not set.
+(def ^:const ^:private api-key-name "GEOCODIO_API_KEY")
+(def ^:const ^:private geocode-base-url "http://api.geocod.io/v1/geocode?api_key=")
+(def ^:const ^:private parse-base-url "http://api.geocod.io/v1/parse?api_key=")
+(def ^:const ^:private env-exception-text (str "The " api-key-name " environment variable was not set.
                                      Set the variable or pass in the api key to this function."))
 
 (defn- get-env-variable []
