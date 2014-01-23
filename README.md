@@ -55,7 +55,7 @@ Returns a Clojure map with a parsed address and geolocation information
 
 (single "42370 Bob Hope Dr, Rancho Mirage CA")
 
-(single "42370 Bob Hope Dr, Rancho Mirage CA" "api-key-here"
+(single "42370 Bob Hope Dr, Rancho Mirage CA" "api-key-here")
 
 ```
 
@@ -67,7 +67,6 @@ Returns a Clojure map containing just the parsed address (street, city, etc)
 
 (components "42370 Bob Hope Dr, Rancho Mirage CA")
 (components "42370 Bob Hope Dr, Rancho Mirage CA" "api-key-here")
-
 ```
 
 ## License
