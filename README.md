@@ -2,6 +2,25 @@
 
 A Clojure library designed to be a thin wrapper over the Geocodio API.
 
+## Installation
+
+#### Leiningen
+```clojure
+[rodeo "0.1.0-SNAPSHOT"]
+```
+#### Maven
+```xml
+<dependency>
+  <groupId>rodeo</groupId>
+  <artifactId>rodeo</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+</dependency>
+```
+#### Gradle
+```groovy
+compile "rodeo:rodeo:0.1.0-SNAPSHOT"
+```
+
 ## Usage
 
 You must acquire an API key from the [Geocodio site](http://geocod.io)
