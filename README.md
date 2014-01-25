@@ -2,6 +2,7 @@
 
 A Clojure library designed to be a thin wrapper over the Geocodio API.
 
+[API Documentation](http://jboverfelt.github.io/rodeo/)
 ## Installation
 
 #### Leiningen
