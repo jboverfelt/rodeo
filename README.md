@@ -1,4 +1,4 @@
-# rodeo [![Build Status](https://travis-ci.org/jboverfelt/rodeo.png?branch=master)](https://travis-ci.org/jboverfelt/rodeo)
+# rodeo [![Build Status](https://travis-ci.org/jboverfelt/rodeo.png?branch=master)](https://travis-ci.org/jboverfelt/rodeo) [![Dependencies Status](http://jarkeeper.com/jboverfelt/rodeo/status.png)](http://jarkeeper.com/jboverfelt/rodeo)
 
 A Clojure library designed to be a thin wrapper over the Geocodio API.
 
