@@ -64,6 +64,8 @@ Returns a Clojure map with a parsed address and geolocation information
 
 Given a seq of lat long pairs, returns a Clojure map with address information
 
+**This API endpoint is still in beta - be careful!**
+
 ```clojure
 
 (single-reverse "42.584149,-71.005885")
@@ -71,7 +73,6 @@ Given a seq of lat long pairs, returns a Clojure map with address information
 
 (batch-reverse ["42.584149,-71.005885" "34.1455496,-118.151631"])
 (batch-reverse ["42.584149,-71.005885" "34.1455496,-118.151631"] "api-key-here")
-
 ```
 
 ### Parsing Components
