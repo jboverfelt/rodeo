@@ -7,6 +7,10 @@
                  "54 West Colorado Boulevard Pasadena CA 91105"
                  "826 Howard Street San Francisco CA 94103"])  
 (def single-data (first batch-data))
+(def reverse-batch-data ["42.584149,-71.005885"
+                         "34.1455496,-118.151631"
+                         "39.0264385,-96.8377689"])
+(def reverse-single-data (first reverse-batch-data))
 
 (defn batch-results? [resp]
   (-> resp
@@ -14,18 +18,29 @@
       (first)
       (:response)
       (:results)
-      (vector?)))
+      (not-empty)))
 
 (defn single-result? [resp]
   (-> resp
       (:results)
-      (vector?)))
+      (not-empty)))
 
 (defn component-result? [resp]
   (-> resp
       (:address_components)
       (:street)
       (string?)))
+
+(defn single-reverse-result? [resp]
+  (-> resp
+      (:results)
+      (not-empty)))
+
+(defn batch-reverse-results? [resp]
+  (-> resp
+      (:results)
+      (count)
+      (= (count reverse-batch-data))))
 
 (deftest batch
   (testing "batch geocode calls"
@@ -47,4 +62,18 @@
     (is (component-result? (rodeo/components single-data api-key))))
   (testing "bad api key"
     (is (thrown-with-msg? Exception #"status 403" (rodeo/components single-data "bogus key")))))
-  
+
+(deftest single-reverse
+  (testing "reverse geocode lookup of single pair"
+    (is (single-reverse-result? (rodeo/single-reverse reverse-single-data))) 
+    (is (single-reverse-result? (rodeo/single-reverse reverse-single-data api-key))))
+  (testing "bad api key"
+    (is (thrown-with-msg? Exception #"status 403" (rodeo/single-reverse reverse-single-data "bogus key")))))
+
+(deftest batch-reverse
+  (testing "reverse geocode lookup of seq of pairs"
+    (is (batch-reverse-results? (rodeo/batch-reverse reverse-batch-data)))
+    (is (batch-reverse-results? (rodeo/batch-reverse reverse-batch-data api-key))))
+  (testing "bad api key"
+    (is (thrown-with-msg? Exception #"status 403" (rodeo/batch-reverse reverse-batch-data "bogus key")))))
+   

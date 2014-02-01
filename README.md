@@ -7,19 +7,19 @@ A Clojure library designed to be a thin wrapper over the Geocodio API.
 
 #### Leiningen
 ```clojure
-[rodeo "0.1.0-SNAPSHOT"]
+[rodeo "0.2.0"]
 ```
 #### Maven
 ```xml
 <dependency>
   <groupId>rodeo</groupId>
   <artifactId>rodeo</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.2.0</version>
 </dependency>
 ```
 #### Gradle
 ```groovy
-compile "rodeo:rodeo:0.1.0-SNAPSHOT"
+compile "rodeo:rodeo:0.2.0"
 ```
 
 ## Usage
@@ -57,6 +57,20 @@ Returns a Clojure map with a parsed address and geolocation information
 (single "42370 Bob Hope Dr, Rancho Mirage CA")
 
 (single "42370 Bob Hope Dr, Rancho Mirage CA" "api-key-here")
+
+```
+
+### Reverse Geocoding
+
+Given a seq of lat long pairs, returns a Clojure map with address information
+
+```clojure
+
+(single-reverse "42.584149,-71.005885")
+(single-reverse "42.584149,-71.005885" "api-key-here")
+
+(batch-reverse ["42.584149,-71.005885" "34.1455496,-118.151631"])
+(batch-reverse ["42.584149,-71.005885" "34.1455496,-118.151631"] "api-key-here")
 
 ```
 
