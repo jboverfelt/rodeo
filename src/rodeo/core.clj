@@ -1,6 +1,6 @@
 (ns rodeo.core
   (:require [cheshire.core :as che]
-            [clj-http.client :as http]))
+            [clj-http.lite.client :as http]))
 
 (def ^:const ^:private api-key-name "GEOCODIO_API_KEY")
 (def ^:const ^:private geocode-base-url "http://api.geocod.io/v1/geocode?api_key=")
