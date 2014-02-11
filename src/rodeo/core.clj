@@ -3,48 +3,44 @@
             [clj-http.lite.client :as http]))
 
 (def ^:const ^:private api-key-name "GEOCODIO_API_KEY")
-(def ^:const ^:private geocode-base-url "http://api.geocod.io/v1/geocode?api_key=")
-(def ^:const ^:private parse-base-url "http://api.geocod.io/v1/parse?api_key=")
-(def ^:const ^:private reverse-base-url "http://api.geocod.io/v1/reverse?api_key=")
+(def ^:const ^:private geocode-base-url "http://api.geocod.io/v1/geocode")
+(def ^:const ^:private parse-base-url "http://api.geocod.io/v1/parse")
+(def ^:const ^:private reverse-base-url "http://api.geocod.io/v1/reverse")
 (def ^:const ^:private env-exception-text (str "The " api-key-name " environment variable was not set.
                                      Set the variable or pass in the api key to this function."))
 
 (defn- get-env-variable []
   (get (System/getenv) api-key-name))
 
-(defn- geocodio-get [url address]
-  (let [get-url (str url "&q=" address)]
-    (-> get-url
-        (http/get)
-        (:body)
-        (che/parse-string true))))
+(defn- geocodio-get [url api-key address]
+  (-> url
+      (http/get {:accept :json :query-params {"q" address "api_key" api-key}})
+      (:body)
+      (che/parse-string true)))
 
-(defn- geocodio-post [url body]
+(defn- geocodio-post [url api-key body]
   (che/parse-string
-    (->> {:body body :content-type :json :accept :json}
+    (->> {:body body :content-type :json :accept :json :query-params {"api_key" api-key}}
          (http/post url)
          (:body)) true))
 
 (defn- handle-single-with-env [base-url location]
     (if-let [env-api-key (get-env-variable)]
-      (geocodio-get (str base-url env-api-key) location)
+      (geocodio-get base-url env-api-key location)
       (throw (Exception. env-exception-text))))
 
 (defn- handle-single-with-key [base-url location api-key]
-  (let [url (str base-url api-key)]
-    (geocodio-get url location)))
+  (geocodio-get base-url api-key location))
 
 (defn- handle-batch-with-env [base-url locations]
   (if-let [env-api-key (get-env-variable)]
-    (let [addr-json (che/generate-string locations)
-          url (str base-url env-api-key)]
-      (geocodio-post url addr-json))
+    (let [addr-json (che/generate-string locations)]
+      (geocodio-post base-url env-api-key addr-json))
     (throw (Exception. env-exception-text))))
   
 (defn- handle-batch-with-key [base-url locations api-key]
-  (let [addr-json (che/generate-string locations)
-        url (str base-url api-key)]
-    (geocodio-post url addr-json)))
+  (let [addr-json (che/generate-string locations)]
+    (geocodio-post base-url api-key addr-json)))
 
 (defn batch
   "Takes a seq of addresses and
