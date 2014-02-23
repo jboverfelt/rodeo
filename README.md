@@ -7,19 +7,19 @@ A Clojure library designed to be a thin wrapper over the Geocodio API.
 
 #### Leiningen
 ```clojure
-[rodeo "0.3.0"]
+[rodeo "1.0.0"]
 ```
 #### Maven
 ```xml
 <dependency>
   <groupId>rodeo</groupId>
   <artifactId>rodeo</artifactId>
-  <version>0.3.0</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 #### Gradle
 ```groovy
-compile "rodeo:rodeo:0.3.0"
+compile "rodeo:rodeo:1.0.0"
 ```
 
 ## Usage
