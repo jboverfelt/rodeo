@@ -32,6 +32,10 @@ pass it into the Rodeo functions as described below.
 
 Acceptable address formats are detailed [here](http://geocod.io/docs/)
 
+All functions return Clojure map. The map will contain an :error key
+with a description if there was an error. Otherwise, it will
+return a map containing the response.
+
 ### Geocoding
 
 Returns a Clojure map with a parsed address and geolocation information
