@@ -46,34 +46,38 @@
   (testing "batch geocode calls"
     (is (batch-results? (rodeo/batch batch-data)))
     (is (batch-results? (rodeo/batch batch-data api-key))))
-  (testing "bad api key"
-    (is (thrown-with-msg? Exception #"status 403" (rodeo/batch batch-data "bogus key")))))
+  (testing "errors"
+    (is (= 422 (:status (rodeo/batch "1234"))))
+    (is (= 403 (:status (rodeo/batch batch-data "bogus key"))))))
 
 (deftest single
   (testing "single geocode call"
     (is (single-result? (rodeo/single single-data)))
     (is (single-result? (rodeo/single single-data api-key))))
-  (testing "bad api key"
-    (is (thrown-with-msg? Exception #"status 403" (rodeo/single single-data "bogus key")))))
+  (testing "errors"
+    (is (= 422 (:status (rodeo/single "1234"))))
+    (is (= 403 (:status (rodeo/single single-data "bogus key"))))))
 
 (deftest components
   (testing "address component parsing"
     (is (component-result? (rodeo/components single-data)))
     (is (component-result? (rodeo/components single-data api-key))))
-  (testing "bad api key"
-    (is (thrown-with-msg? Exception #"status 403" (rodeo/components single-data "bogus key")))))
+  (testing "errors"
+    (is (= 422 (:status (rodeo/components "1234"))))
+    (is (= 403 (:status (rodeo/components single-data "bogus key"))))))
 
 (deftest single-reverse
   (testing "reverse geocode lookup of single pair"
     (is (single-reverse-result? (rodeo/single-reverse reverse-single-data))) 
     (is (single-reverse-result? (rodeo/single-reverse reverse-single-data api-key))))
-  (testing "bad api key"
-    (is (thrown-with-msg? Exception #"status 403" (rodeo/single-reverse reverse-single-data "bogus key")))))
+  (testing "errors"
+    (is (= 422 (:status (rodeo/single-reverse "1234"))))
+    (is (= 403 (:status (rodeo/single-reverse reverse-single-data "bogus key"))))))
 
 (deftest batch-reverse
   (testing "reverse geocode lookup of seq of pairs"
     (is (batch-reverse-results? (rodeo/batch-reverse reverse-batch-data)))
     (is (batch-reverse-results? (rodeo/batch-reverse reverse-batch-data api-key))))
-  (testing "bad api key"
-    (is (thrown-with-msg? Exception #"status 403" (rodeo/batch-reverse reverse-batch-data "bogus key")))))
-   
+  (testing "errors"
+    (is (= 422 (:status (rodeo/batch-reverse "1234"))))
+    (is (= 403 (:status (rodeo/batch-reverse reverse-batch-data "bogus key"))))))

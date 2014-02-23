@@ -1,5 +1,5 @@
 (ns rodeo.core
-  (:require [cheshire.core :as che]
+  (:require [cheshire.core :as json]
             [clj-http.lite.client :as http]))
 
 (def ^:const ^:private api-key-name "GEOCODIO_API_KEY")
@@ -12,41 +12,48 @@
 (defn- get-env-variable []
   (get (System/getenv) api-key-name))
 
+(defn- handle-response [resp]
+  (let [status (:status resp)]
+    (cond
+      (= status 200) (json/parse-string (:body resp) true)
+      (= status 403) (assoc (json/parse-string (:body resp) true) :status status)
+      (= status 422) (assoc (json/parse-string (:body resp) true) :status status)
+      :else          {:error (:body resp) :status status})))   
+
 (defn- geocodio-get [url api-key address]
   (-> url
-      (http/get {:accept :json :query-params {"q" address "api_key" api-key}})
-      (:body)
-      (che/parse-string true)))
+      (http/get {:accept :json :query-params {"q" address "api_key" api-key} :throw-exceptions false})
+      (handle-response)))
 
 (defn- geocodio-post [url api-key body]
-  (che/parse-string
-    (->> {:body body :content-type :json :accept :json :query-params {"api_key" api-key}}
-         (http/post url)
-         (:body)) true))
+  (->> {:body body :content-type :json :accept :json :query-params {"api_key" api-key} :throw-exceptions false}
+       (http/post url)
+       (handle-response)))
 
 (defn- handle-single-with-env [base-url location]
     (if-let [env-api-key (get-env-variable)]
       (geocodio-get base-url env-api-key location)
-      (throw (Exception. env-exception-text))))
+      {:error env-exception-text}))
 
 (defn- handle-single-with-key [base-url location api-key]
   (geocodio-get base-url api-key location))
 
 (defn- handle-batch-with-env [base-url locations]
   (if-let [env-api-key (get-env-variable)]
-    (let [addr-json (che/generate-string locations)]
+    (let [addr-json (json/generate-string locations)]
       (geocodio-post base-url env-api-key addr-json))
-    (throw (Exception. env-exception-text))))
+    {:error env-exception-text}))
   
 (defn- handle-batch-with-key [base-url locations api-key]
-  (let [addr-json (che/generate-string locations)]
+  (let [addr-json (json/generate-string locations)]
     (geocodio-post base-url api-key addr-json)))
 
 (defn batch
   "Takes a seq of addresses and
   and optional api key and
   makes a request to Geocodio.
-  Returns a Clojure map of results."
+  Returns a Clojure map of results. The map will have
+  an :error key with a description if there was an error"
   ([addresses]
     (handle-batch-with-env geocode-base-url addresses))
 
@@ -56,7 +63,8 @@
 (defn single
   "Takes a single address string and an optional api key and
   makes a request to Geocodio. Returns
-  a Clojure map of results"
+  a Clojure map of results. The map will have an :error key
+  with a description if there was an error"
   ([address]
     (handle-single-with-env geocode-base-url address))
 
@@ -67,7 +75,8 @@
   "Takes a single address string and an optional
   api key and returns a clojure map of the components
   of that address (street, city, etc as a
-  Clojure map"
+  Clojure map. The map will have an :error key with a 
+  description if there was an error"
   ([address]
     (handle-single-with-env parse-base-url address))
 
@@ -77,7 +86,8 @@
 (defn single-reverse
   "Takes a string containing a comma separated latitude
   longitude pair and an optional api key and returns a
-  Clojure map of address results"
+  Clojure map of address results. The map will have an
+  :error key with a description if there was an error"
   ([lat-long-pair]
     (handle-single-with-env reverse-base-url lat-long-pair))
 
@@ -87,7 +97,9 @@
 (defn batch-reverse
   "Takes a seq of strings containing comma separated
   latitude and longitude pairs and an optional api key
-  and returns a Clojure map of address results"
+  and returns a Clojure map of address results. The map
+  will have an :error key with a description if there
+  was an error"
   ([pairs]
     (handle-batch-with-env reverse-base-url pairs))
 
