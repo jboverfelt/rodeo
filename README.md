@@ -41,7 +41,11 @@ components endpoint.
 
 All functions return a Clojure map. The map will contain an :error key
 with a description if there was an error. Otherwise, it will
-return a map containing the response.
+return a map containing the response. My humble suggestion is
+to use [core.match](https://github.com/clojure/core.match/) to perform
+error handling for responses with an :error key and regular handing 
+for success responses. However, since you'll get a map back regardless,
+it is completely up to you to decide on an error handling strategy. 
 
 ### Geocoding
 
