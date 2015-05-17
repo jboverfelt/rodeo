@@ -1,4 +1,4 @@
-(defproject rodeo "2.0.1"
+(defproject rodeo "2.0.2-SNAPSHOT"
   :description "Clojure client for Geocodio API"
   :url "https://github.com/jboverfelt/rodeo"
   :license {:name "Eclipse Public License"
