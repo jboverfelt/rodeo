@@ -7,19 +7,19 @@ A Clojure library designed to be a thin wrapper over the Geocodio API.
 
 #### Leiningen
 ```clojure
-[rodeo "2.0.0"]
+[rodeo "2.0.1"]
 ```
 #### Maven
 ```xml
 <dependency>
   <groupId>rodeo</groupId>
   <artifactId>rodeo</artifactId>
-  <version>2.0.0</version>
+  <version>2.0.1</version>
 </dependency>
 ```
 #### Gradle
 ```groovy
-compile "rodeo:rodeo:2.0.0"
+compile "rodeo:rodeo:2.0.1"
 ```
 
 ## Usage
@@ -109,7 +109,7 @@ Returns a Clojure map containing just the parsed address (street, city, etc)
 
 ## License
 
-Copyright © 2014 Justin Overfelt
+Copyright © 2015 Justin Overfelt
 
 Distributed under the Eclipse Public License (same as Clojure) either version 1.0 or (at
 your option) any later version.
