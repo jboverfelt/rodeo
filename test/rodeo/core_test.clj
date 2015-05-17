@@ -67,7 +67,7 @@
     (is (batch-fields? (rodeo/batch batch-data :fields fields)))
     (is (batch-fields? (rodeo/batch batch-data :api-key api-key :fields fields))))
   (testing "errors"
-    (is (= 422 (:status (rodeo/batch "1234"))))
+    (is (= 422 (:status (rodeo/batch "notabletobegeocoded"))))
     (is (= 403 (:status (rodeo/batch batch-data :api-key "bogus key"))))))
 
 (deftest single
@@ -77,7 +77,7 @@
     (is (single-fields? (rodeo/single single-data :fields fields)))
     (is (single-fields? (rodeo/single single-data :api-key api-key :fields fields))))
   (testing "errors"
-    (is (= 422 (:status (rodeo/single "1234"))))
+    (is (= 422 (:status (rodeo/single "notabletobegeocoded"))))
     (is (= 403 (:status (rodeo/single single-data :api-key "bogus key"))))))
 
 (deftest components
@@ -95,7 +95,7 @@
     (is (single-fields? (rodeo/single-reverse reverse-single-data :fields fields)))
     (is (single-fields? (rodeo/single-reverse reverse-single-data :api-key api-key :fields fields))))
   (testing "errors"
-    (is (= 422 (:status (rodeo/single-reverse "1234"))))
+    (is (= 422 (:status (rodeo/single-reverse "notabletobegeocoded"))))
     (is (= 403 (:status (rodeo/single-reverse reverse-single-data :api-key "bogus key"))))))
 
 (deftest batch-reverse
@@ -105,5 +105,5 @@
     (is (batch-fields? (rodeo/batch-reverse reverse-batch-data :fields fields)))
     (is (batch-fields? (rodeo/batch-reverse reverse-batch-data :api-key api-key :fields fields))))
   (testing "errors"
-    (is (= 422 (:status (rodeo/batch-reverse "1234"))))
+    (is (= 422 (:status (rodeo/batch-reverse "notabletobegeocoded"))))
     (is (= 403 (:status (rodeo/batch-reverse reverse-batch-data :api-key "bogus key"))))))
