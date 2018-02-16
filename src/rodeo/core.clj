@@ -4,9 +4,9 @@
             [clj-http.lite.client :as http]))
 
 (def ^:const ^:private api-key-name "GEOCODIO_API_KEY")
-(def ^:const ^:private geocode-base-url "http://api.geocod.io/v1/geocode")
-(def ^:const ^:private parse-base-url "http://api.geocod.io/v1/parse")
-(def ^:const ^:private reverse-base-url "http://api.geocod.io/v1/reverse")
+(def ^:const ^:private geocode-base-url "http://api.geocod.io/v1.2/geocode")
+(def ^:const ^:private parse-base-url "http://api.geocod.io/v1.2/parse")
+(def ^:const ^:private reverse-base-url "http://api.geocod.io/v1.2/reverse")
 (def ^:const ^:private env-exception-text (str "The " api-key-name " environment variable was not set.
                                      Set the variable or pass in the api key to this function."))
 
